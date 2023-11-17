@@ -3,22 +3,10 @@ package server;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDateTime;
-import java.util.Comparator;
 
 import interfaces.IAppointment;
 import interfaces.IStudent;
 import interfaces.ITeacher;
-
-class AppointmentComparator implements Comparator<IAppointment> {
-    public int compare(IAppointment a1, IAppointment a2) {
-        try {
-			return a1.getInitial_time().compareTo(a2.getInitial_time());
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-		return 0;
-    }
-}
 
 public class Appointment extends UnicastRemoteObject implements IAppointment {
 	
@@ -43,6 +31,18 @@ public class Appointment extends UnicastRemoteObject implements IAppointment {
 		return initial_time;
 	}
 
+	public IStudent get_student() {
+		return student;
+	}
+
+	public String get_subject() {
+		return subject;
+	}
+
+	public ITeacher get_teacher() {
+		return teacher;
+	}
+
 	public void setInitial_time(LocalDateTime initial_time) {
 		this.initial_time = initial_time;
 	}
@@ -62,7 +62,13 @@ public class Appointment extends UnicastRemoteObject implements IAppointment {
 
 	@Override
 	public void cancel_appointment() throws RemoteException {
-		// ....
+		this.student=null;
+	}
+
+	@Override
+	public String to_string() throws RemoteException{
+		return "Appointment [initial_time=" + initial_time + ", final_time=" + final_time + ", subject=" + subject
+				+ ", teacher=" + teacher + ", student=" + student + "]";
 	}
 }
 

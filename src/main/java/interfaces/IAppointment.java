@@ -7,8 +7,10 @@ public interface IAppointment {
 
 	public void book_appointment(IStudent student) throws RemoteException;
 	
-	// ver melhor esta função
+	// ver melhor esta funï¿½ï¿½o
 	public void cancel_appointment() throws RemoteException;
 	
 	public LocalDateTime getInitial_time() throws RemoteException;
+
+	public String to_string() throws RemoteException;
 }

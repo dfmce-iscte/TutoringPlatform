@@ -7,4 +7,6 @@ public interface IStudent {
 	
 	public void appointment_available(Set<IAppointment> appointments) throws RemoteException;
 
+	public String to_string() throws RemoteException;
+
 }
