@@ -3,12 +3,15 @@ package server;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import interfaces.IAppointment;
 import interfaces.IStudent;
 import interfaces.ITeacher;
 
 public class Appointment extends UnicastRemoteObject implements IAppointment {
+
+	final static DateTimeFormatter CUSTOM_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	
 	private LocalDateTime initial_time;
 	private LocalDateTime final_time;
@@ -58,6 +61,9 @@ public class Appointment extends UnicastRemoteObject implements IAppointment {
 	@Override
 	public void book_appointment(IStudent student) throws RemoteException {
 		this.student = student;
+		student.add_appointment(this);
+		System.out.println(to_string());
+		System.err.print("Booked for student: " + student.to_string());
 	}
 
 	@Override
@@ -67,8 +73,12 @@ public class Appointment extends UnicastRemoteObject implements IAppointment {
 
 	@Override
 	public String to_string() throws RemoteException{
-		return "Appointment [initial_time=" + initial_time + ", final_time=" + final_time + ", subject=" + subject
-				+ ", teacher=" + teacher + ", student=" + student + "]";
+		if (student != null)
+			return "Appointment [initial_time=" + initial_time.format(CUSTOM_FORMATTER) + ", final_time=" + final_time.format(CUSTOM_FORMATTER) + ", subject=" + subject
+				+ ", teacher=" + teacher.to_string() + ", student=" + student.to_string() + "]";
+		else	
+			return "Appointment [initial_time=" + initial_time.format(CUSTOM_FORMATTER) + ", final_time=" + final_time.format(CUSTOM_FORMATTER) + ", subject=" + subject
+				+ ", teacher=" + teacher.to_string() + ", student= No student]";
 	}
 }
 

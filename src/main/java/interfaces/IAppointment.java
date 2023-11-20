@@ -1,9 +1,10 @@
 package interfaces;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.time.LocalDateTime;
 
-public interface IAppointment {
+public interface IAppointment extends Remote{
 
 	public void book_appointment(IStudent student) throws RemoteException;
 	
