@@ -23,18 +23,17 @@ public class TutoringServer extends UnicastRemoteObject implements ITutoringServ
 	}
 
 	@Override
-	public Map<ITeacher,Set<IAppointment>> search_availability_for_specific_subject(String subject) throws RemoteException {
-		Map<ITeacher,Set<IAppointment>> teachers_available = new HashMap<>();
+	public Map<ITeacher, Set<IAppointment>> search_availability_for_specific_subject(String subject)
+			throws RemoteException {
+		Map<ITeacher, Set<IAppointment>> teachers_available = new HashMap<>();
 
 		for (Teacher teacher : teachers_per_subjects.get(subject)) {
-			teachers_available.put(teacher,teacher.check_availability(subject));
+			teachers_available.put(teacher, teacher.check_availability(subject));
 		}
 		return teachers_available;
 	}
 
-	
-
-	public Teacher add_teacher(Map<String,Double> rates, String name) throws RemoteException {
+	public Teacher add_teacher(Map<String, Double> rates, String name) throws RemoteException {
 		Teacher new_teacher = new Teacher(last_teacher_id_used, rates, name);
 		last_teacher_id_used++;
 		for (Map.Entry<String, Double> entry : rates.entrySet()) {
@@ -56,25 +55,26 @@ public class TutoringServer extends UnicastRemoteObject implements ITutoringServ
 		}
 	}
 
-	public void add_new_subject_to_teacher(Teacher teacher,String subject){
+	public void add_new_subject_to_teacher(Teacher teacher, String subject) {
 		if (!teachers_per_subjects.containsKey(subject)) {
 			teachers_per_subjects.put(subject, new HashSet<Teacher>());
 		}
 		teachers_per_subjects.get(subject).add(teacher);
 	}
 
-	public void remove_subject_from_teacher(Teacher teacher,String subject){
+	public void remove_subject_from_teacher(Teacher teacher, String subject) {
 		if (teachers_per_subjects.containsKey(subject)) {
 			teachers_per_subjects.get(subject).remove(teacher);
 		}
 	}
+
 	@Override
-	public String to_string() throws RemoteException {
+	public String to_string() {
 		String string = "";
 		for (Map.Entry<String, Set<Teacher>> entry : teachers_per_subjects.entrySet()) {
 			string += entry.getKey() + ": ";
 			for (Teacher teacher : entry.getValue()) {
-				string += teacher.to_string() + ", ";
+				string += teacher + ", ";
 			}
 			string += "\n";
 		}

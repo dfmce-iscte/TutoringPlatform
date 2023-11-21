@@ -7,19 +7,22 @@ import java.rmi.registry.LocateRegistry;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
-public class Server {
-    
+public class ServerMain {
+
     public static void main(String[] args) {
         try {
             LocateRegistry.createRegistry(1099);
             TutoringServer server = new TutoringServer();
             Naming.rebind("TutoringPlatform", server);
 
-            Map<String,Double> t1_rates = new HashMap<>();
-            Map<String,Double> t2_rates = new HashMap<>();
-            Map<String,Double> t3_rates = new HashMap<>();
-            
+            System.out.println("Server is running...");
+
+            Map<String, Double> t1_rates = new HashMap<>();
+            Map<String, Double> t2_rates = new HashMap<>();
+            Map<String, Double> t3_rates = new HashMap<>();
+
             t1_rates.put("Math", 10.0);
             t1_rates.put("Physics", 15.0);
             t2_rates.put("Math", 20.0);
@@ -41,8 +44,13 @@ public class Server {
             t1.create_appointment(d1_i, d1_f, "Math");
             t1.create_appointment(d2_i, d2_f, "Physics");
             t2.create_appointment(d3_i, d3_f, "Math");
-
-
+            Scanner scanner = new Scanner(System.in);
+            while (true) {
+                String text = scanner.nextLine();
+                if (text.equals("app")) {
+                    t3.create_appointment(d1_i, d1_f, "Math");
+                }
+            }
 
         } catch (RemoteException | MalformedURLException e) {
             e.printStackTrace();
@@ -50,4 +58,3 @@ public class Server {
     }
 
 }
-
