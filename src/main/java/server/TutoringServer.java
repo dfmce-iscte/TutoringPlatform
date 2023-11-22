@@ -33,7 +33,7 @@ public class TutoringServer extends UnicastRemoteObject implements ITutoringServ
 	}
 
 	
-
+	// agora o professor pode ter mais do que uma disciplina mas  se for dorpdown tem que se inicial disciplinas.
 	public Teacher add_teacher(Map<String,Double> rates, String name) throws RemoteException {
 		Teacher new_teacher = new Teacher(last_teacher_id_used, rates, name);
 		last_teacher_id_used++;
