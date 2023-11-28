@@ -6,7 +6,7 @@ import java.util.Comparator;
 public class AppointmentComparator implements Comparator<IAppointment> {
 	public int compare(IAppointment a1, IAppointment a2) {
 		try {
-			return a1.getInitial_time().compareTo(a2.getInitial_time());
+			return a1.getInitialTime().compareTo(a2.getInitialTime());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

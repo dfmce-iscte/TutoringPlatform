@@ -2,19 +2,17 @@ package interfaces;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.Set;
 
 public interface ITeacher extends Remote {
 
-	// public Set<IAppointment> check_availability(String subject) throws
-	// RemoteException;
+	public void addStudentToWaitingList(IStudent student, String subject) throws RemoteException;
 
-	public void add_student_to_waiting_list(IStudent student, String subject) throws RemoteException;
-
-	public void remove_student_from_waiting_list(IStudent student, String subject) throws RemoteException;
+	public void removeStudentFromWaitingList(IStudent student, String subject) throws RemoteException;
 
 	public String to_string() throws RemoteException;
 
-	public String get_name() throws RemoteException;
+	public String getName() throws RemoteException;
+	
+	public IAppointment getAppointment(String appString) throws RemoteException;
 
 }

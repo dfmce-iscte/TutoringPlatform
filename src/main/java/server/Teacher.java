@@ -14,35 +14,44 @@ import interfaces.ITeacher;
 
 public class Teacher extends UnicastRemoteObject implements ITeacher {
 
-	private Set<Appointment> past_appointments;
-	private Set<Appointment> future_appointments;
+	private Set<Appointment> appointments;
 	private Map<String, Double> subjects_with_rates;
 	private Map<String, Set<IStudent>> waiting_list;
 	private String name;
 	private final int id;
+	private TutoringServer server;
 
-	protected Teacher(int id, Map<String, Double> subjects_with_rates, String name) throws RemoteException {
+	protected Teacher(TutoringServer server, int id, String name) throws RemoteException {
+		super();
+		this.server = server;
+		this.id = id;
+		waiting_list = new HashMap<String, Set<IStudent>>();
+		appointments = new HashSet<Appointment>();
+		this.subjects_with_rates = new HashMap<>();
+		this.name = name;
+	}
+
+	protected Teacher(TutoringServer server, int id, Map<String, Double> subjects_with_rates, String name) throws RemoteException {
 		super();
 		// past_appointments = new TreeSet<Appointment>(new AppointmentComparator());
 		// future_appointments = new TreeSet<Appointment>(new AppointmentComparator());
+		this.server = server;
 		this.id = id;
 		waiting_list = new HashMap<String, Set<IStudent>>();
-		past_appointments = new HashSet<Appointment>();
-		future_appointments = new HashSet<Appointment>();
+		appointments = new HashSet<Appointment>();
 		this.subjects_with_rates = subjects_with_rates;
 		this.name = name;
-
 	}
 
-	public void change_rate_to_subject(String subject, Double new_rate) {
+	public void changeRateToSubject(String subject, Double new_rate) {
 		subjects_with_rates.put(subject, new_rate);
 	}
 
-	public void notify_student(Appointment appointment) throws RemoteException {
-		if (waiting_list.containsKey(appointment.get_subject())) {
-			waiting_list.get(appointment.get_subject()).forEach(student -> {
+	public void notifyStudent(Appointment appointment) throws RemoteException {
+		if (waiting_list.containsKey(appointment.getSubject())) {
+			waiting_list.get(appointment.getSubject()).forEach(student -> {
 				try {
-					student.appointment_available(appointment);
+					student.appointmentAvailable(appointment);
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				}
@@ -50,50 +59,48 @@ public class Teacher extends UnicastRemoteObject implements ITeacher {
 		}
 	}
 
-	public void create_appointment(LocalDateTime initial_time, LocalDateTime final_time, String subject)
+	public Appointment createAppointment(LocalDateTime initial_time, LocalDateTime final_time, String subject)
 			throws RemoteException {
 		Appointment new_appointment = new Appointment(initial_time, final_time, subject, this);
-		future_appointments.add(new_appointment);
-		notify_student(new_appointment);
-
+		appointments.add(new_appointment);
+		notifyStudent(new_appointment);
+		return new_appointment;
 	}
 
-	public int get_id() {
+	public int getId() {
 		return id;
 	}
 
 	@Override
-	public String get_name() {
+	public String getName() {
 		return name;
 	}
 
-	public Set<Appointment> getPast_appointments() {
-		return past_appointments;
+	public Set<Appointment> getAppointments() {
+		return appointments;
 	}
 
-	public Set<Appointment> getFuture_appointments() {
-		return future_appointments;
-	}
-
-	public Map<String, Double> getSubjects_with_rates() {
+	public Map<String, Double> getSubjectsWithRates() {
 		return subjects_with_rates;
 	}
 
-	public void addPast_appointments(Appointment appointment) {
-		past_appointments.add(appointment);
-	}
+	// public void addFuture_appointments(Appointment appointment) {
+	// 	// waiting_list.get(appointment.get_subject()).remove(appointment.get_student());
+	// 	appointments.add(appointment);
+	// }
 
-	public void addFuture_appointments(Appointment appointment) {
-		// waiting_list.get(appointment.get_subject()).remove(appointment.get_student());
-		future_appointments.add(appointment);
-	}
-
-	public void addSubject_with_rates(String subject, Double value) {
+	public void addSubjectWithRates(String subject, Double value) {
 		subjects_with_rates.put(subject, value);
+		server.addNewSubjectToTeacher(this, subject);
+	}
+
+	public void removeSubject(String subject) {
+		subjects_with_rates.remove(subject);
+		server.removeSubjectFromTeacher(this, subject);
 	}
 
 	@Override
-	public void add_student_to_waiting_list(IStudent student, String subject) throws RemoteException {
+	public void addStudentToWaitingList(IStudent student, String subject) throws RemoteException {
 		if (waiting_list.containsKey(subject)) {
 			waiting_list.get(subject).add(student);
 		} else {
@@ -101,36 +108,47 @@ public class Teacher extends UnicastRemoteObject implements ITeacher {
 			students.add(student);
 			waiting_list.put(subject, students);
 		}
-		System.out.println("For teacher " + name + ", student " + student.get_name() + " added to waiting list. Size: "
+		System.out.println("For teacher " + name + ", student " + student.getName() + " added to waiting list. Size: "
 				+ waiting_list.get(subject).size());
 	}
 
 	@Override
-	public void remove_student_from_waiting_list(IStudent student, String subject) throws RemoteException {
+	public void removeStudentFromWaitingList(IStudent student, String subject) throws RemoteException {
+		
 		if (waiting_list.containsKey(subject)) {
 			waiting_list.get(subject).remove(student);
+			System.out.println(student.getName() + " removed from waiting list for subject " + subject);
 		}
-		System.out.println("For teacher " + name + ", student " + student.get_name()
-				+ " removed from waiting list. Size: " + waiting_list.get(subject).size());
+		
 	}
 
 	// @Override
-	public Set<IAppointment> check_availability(String subject) throws RemoteException {
+	public Set<IAppointment> checkAvailability(String subject) throws RemoteException {
 		// Set<IAppointment> appointments = new TreeSet<IAppointment>(new
 		// AppointmentComparator());
-		Set<IAppointment> appointments = new HashSet<IAppointment>();
+		Set<IAppointment> appointments_available = new HashSet<IAppointment>();
 
-		for (Appointment appointment : future_appointments) {
-			if (appointment.get_student() == null && appointment.get_subject().equals(subject)) {
-				appointments.add(appointment);
+		for (Appointment appointment : appointments) {
+			if (appointment.getStudent() == null && appointment.getSubject().equals(subject)) {
+				appointments_available.add(appointment);
 			}
 		}
-		return appointments;
+		return appointments_available;
 	}
 
 	@Override
 	public String to_string() {
 		return "Teacher " + name + " with subjects: " + subjects_with_rates.toString();
+	}
+
+	@Override
+	public IAppointment getAppointment(String appString) throws RemoteException{
+		for (Appointment app : appointments) {
+			if (app.to_string().equals(appString)) {
+				return app;
+			}
+		}
+		return null;
 	}
 
 }

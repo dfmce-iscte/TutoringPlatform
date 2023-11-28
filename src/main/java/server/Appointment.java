@@ -29,27 +29,43 @@ public class Appointment extends UnicastRemoteObject implements IAppointment {
 		this.student = null;
 	}
 
+	public IStudent getStudent() {
+		return student;
+	}
+	
+	// public void setInitial_time(LocalDateTime initial_time) {
+	// 	this.initial_time = initial_time;
+	// }
+
+	public LocalDateTime getFinalTime() {
+		return final_time;
+	}
+
+	// public void setFinal_time(LocalDateTime final_time) {
+	// 	this.final_time = final_time;
+	// }
+
 	@Override
-	public LocalDateTime getInitial_time() {
+	public LocalDateTime getInitialTime() {
 		return initial_time;
 	}
 
 	@Override
-	public String book_appointment(IStudent student) throws RemoteException {
+	public String bookAppointment(IStudent student) throws RemoteException {
 		if (this.student != null) {
 			return "Appointment already booked.";
 		}
 		this.student = student;
-		student.add_appointment(this);
-		String message = "Appointment for " + subject + " with teacher " + teacher.get_name() + " booked for student: "
-				+ student.get_name() + " on " + initial_time.format(CUSTOM_FORMATTER) + " to "
+		student.addAppointment(this);
+		String message = "Appointment for " + subject + " with teacher " + teacher.getName() + " booked for student: "
+				+ student.getName() + " on " + initial_time.format(CUSTOM_FORMATTER) + " to "
 				+ final_time.format(CUSTOM_FORMATTER);
 		System.err.println(message);
 		return message;
 	}
 
 	@Override
-	public void cancel_appointment() throws RemoteException {
+	public void cancelAppointment() throws RemoteException {
 		this.student = null;
 	}
 
@@ -58,35 +74,22 @@ public class Appointment extends UnicastRemoteObject implements IAppointment {
 		if (student != null)
 			return "Appointment [initial_time=" + initial_time.format(CUSTOM_FORMATTER) + ", final_time="
 					+ final_time.format(CUSTOM_FORMATTER) + ", subject=" + subject
-					+ ",\nteacher=" + teacher.get_name() + ", student=" + student.get_name() + "]";
+					+ ",\nteacher=" + teacher.getName() + ", student=" + student.getName() + "]";
 		else
 			return "Appointment [initial_time=" + initial_time.format(CUSTOM_FORMATTER) + ", final_time="
 					+ final_time.format(CUSTOM_FORMATTER) + ", subject=" + subject
-					+ ",\nteacher=" + teacher.get_name() + ", student= No student]";
+					+ ",\nteacher=" + teacher.getName() + ", student= No student]";
 	}
 
-	public IStudent get_student() {
-		return student;
-	}
-
-	public String get_subject() {
+	@Override
+	public String getSubject() throws RemoteException{
 		return subject;
 	}
 
-	public ITeacher get_teacher() {
+	@Override
+	public ITeacher getTeacher() throws RemoteException{
 		return teacher;
 	}
 
-	public void setInitial_time(LocalDateTime initial_time) {
-		this.initial_time = initial_time;
-	}
-
-	public LocalDateTime getFinal_time() {
-		return final_time;
-	}
-
-	public void setFinal_time(LocalDateTime final_time) {
-		this.final_time = final_time;
-	}
-
+	
 }
