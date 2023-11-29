@@ -33,17 +33,12 @@ public class Appointment extends UnicastRemoteObject implements IAppointment {
 		return student;
 	}
 	
-	// public void setInitial_time(LocalDateTime initial_time) {
-	// 	this.initial_time = initial_time;
-	// }
+	
 
 	public LocalDateTime getFinalTime() {
 		return final_time;
 	}
 
-	// public void setFinal_time(LocalDateTime final_time) {
-	// 	this.final_time = final_time;
-	// }
 
 	@Override
 	public LocalDateTime getInitialTime() {
@@ -64,10 +59,7 @@ public class Appointment extends UnicastRemoteObject implements IAppointment {
 		return message;
 	}
 
-	@Override
-	public void cancelAppointment() throws RemoteException {
-		this.student = null;
-	}
+	
 
 	@Override
 	public String to_string() throws RemoteException {

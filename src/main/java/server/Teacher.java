@@ -146,6 +146,7 @@ public class Teacher extends UnicastRemoteObject implements ITeacher {
 
 		for (Appointment appointment : appointments) {
 			if (appointment.getStudent() == null && appointment.getSubject().equals(subject)) {
+				System.out.println("Appointment available: " + appointment.to_string());
 				appointments_available.add(appointment);
 			}
 		}

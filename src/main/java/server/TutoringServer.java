@@ -79,6 +79,7 @@ public class TutoringServer extends UnicastRemoteObject implements ITutoringServ
 		Map<ITeacher, Set<IAppointment>> teachers_available = new HashMap<>();
 		System.out.println("Searching availability for subject: " + subject);
 		for (Teacher teacher : teachers_per_subjects.get(subject)) {
+			
 			teachers_available.put(teacher, teacher.checkAvailability(subject));
 		}
 		return teachers_available;
@@ -103,7 +104,7 @@ public class TutoringServer extends UnicastRemoteObject implements ITutoringServ
 			System.out.println(" name "+t.getName());
 			if (t.getName().equals(teacher)) {
 				for (Appointment a : t.getAppointments()) {
-					if (a.getSubject().equals(subject)) {
+					if (a.getSubject().equals(subject) && a.getStudent() == null) {
 						appointments.add(a);
 					}
 				}

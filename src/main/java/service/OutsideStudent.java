@@ -2,6 +2,7 @@ package service;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -69,6 +70,12 @@ public class OutsideStudent extends UnicastRemoteObject implements IStudent {
 	@Override
 	public String getName() throws RemoteException {
 		return this.name;
+	}
+
+	@Override
+	public Map<String, ArrayList<ITeacher>> getStudentWaitingList() throws RemoteException {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'getStudentWaitingList'");
 	}
 
 }

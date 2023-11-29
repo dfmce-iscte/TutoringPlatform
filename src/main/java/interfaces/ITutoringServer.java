@@ -19,5 +19,4 @@ public interface ITutoringServer extends Remote {
 	public List<IAppointment> getAppointmentsForSubjectAndTeacher(String teacher,String subject) throws RemoteException;
 
 	public ITeacher getTeacherByName(String name)throws RemoteException;
-
 }
