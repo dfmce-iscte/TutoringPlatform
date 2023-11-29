@@ -12,28 +12,45 @@ import interfaces.*;
 public class GustaveTutorService {
 
 	public class ITeacherWithIAppointments {
-		public ITeacher teacher;
-		public IAppointment[] appointments;
-
-		public ITeacherWithIAppointments(ITeacher teacher, IAppointment[] appointments) {
+		public String teacher;
+		public String[] appointments;
+		
+		public ITeacherWithIAppointments() {
+			this.teacher = "";
+			this.appointments = new String[1];
+		}
+		
+		public ITeacherWithIAppointments(String teacher, String[] appointments) {
 			this.teacher = teacher;
 			this.appointments = appointments;
 		}
 
-		public IAppointment[] getIAppointments() {
+		public String[] getIAppointments() {
 			return appointments;
 		}
 
-		public ITeacher getITeacher() {
+		public String getITeacher() {
 			return teacher;
 		}
 	}  
 
 	private ITutoringServer server = null;
+	private OutsideStudent student = null; 
 	
 	public GustaveTutorService() {
 		try {
 			this.server = (ITutoringServer) Naming.lookup("TutoringPlatform");
+			student = new OutsideStudent("Student X");
+		} catch (MalformedURLException | RemoteException | NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public GustaveTutorService(String name) {
+		try {
+			this.server = (ITutoringServer) Naming.lookup("TutoringPlatform");
+			student = new OutsideStudent(name);
 		} catch (MalformedURLException | RemoteException | NotBoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -47,18 +64,31 @@ public class GustaveTutorService {
 
 		int i = 0;
 		for (ITeacher teacher : appointments.keySet()) {
-			IAppointment[] teacher_appointments = new IAppointment[appointments.get(teacher).size()];
+			String[] teacher_appointments = new String[appointments.get(teacher).size()];
 			int j = 0;
 			for (IAppointment appointment : appointments.get(teacher)) {
-				teacher_appointments[j] = appointment;
+				teacher_appointments[j] = appointment.to_string();
 				j++;
 			}
-			appointmentsArray[i] = new ITeacherWithIAppointments(teacher, teacher_appointments);
+			appointmentsArray[i] = new ITeacherWithIAppointments(teacher.getName(), teacher_appointments);
 			i++;
 		}
 
 		return appointmentsArray;
 	}
+	
+	public void addStudentToWaitingList(String teacher, String subject) throws RemoteException {
+		ITeacher teacher_instance = server.getTeacherByName(teacher);
+		teacher_instance.addStudentToWaitingList(student, subject);
+	}
+	
+	public void removeStudentToWaitingList(String teacher, String subject) throws RemoteException {
+		ITeacher teacher_instance = server.getTeacherByName(teacher);
+		teacher_instance.removeStudentFromWaitingList(student, subject);
+	}
+	
+	
+
 	
 	
 }

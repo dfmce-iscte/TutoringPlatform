@@ -94,10 +94,10 @@ public class Teacher extends UnicastRemoteObject implements ITeacher {
 		server.addNewSubjectToTeacher(this, subject);
 	}
 
-	public void removeSubject(String subject) {
-		subjects_with_rates.remove(subject);
-		server.removeSubjectFromTeacher(this, subject);
-	}
+	// public void removeSubject(String subject) {
+	// 	subjects_with_rates.remove(subject);
+	// 	server.removeSubjectFromTeacher(this, subject);
+	// }
 
 	@Override
 	public void addStudentToWaitingList(IStudent student, String subject) throws RemoteException {

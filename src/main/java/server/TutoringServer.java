@@ -84,18 +84,7 @@ public class TutoringServer extends UnicastRemoteObject implements ITutoringServ
 		return teachers_available;
 	}
 
-	@Override
-	public String to_string() {
-		String string = "";
-		for (Map.Entry<String, Set<Teacher>> entry : teachers_per_subjects.entrySet()) {
-			string += entry.getKey() + ": ";
-			for (Teacher teacher : entry.getValue()) {
-				string += teacher + ", ";
-			}
-			string += "\n";
-		}
-		return string;
-	}
+	
 
 	@Override
 	public List<String> getAllSubjects()  throws RemoteException{
@@ -130,6 +119,18 @@ public class TutoringServer extends UnicastRemoteObject implements ITutoringServ
 			}
 		}
 		return null;
+	}
+	@Override
+	public String to_string() {
+		String string = "";
+		for (Map.Entry<String, Set<Teacher>> entry : teachers_per_subjects.entrySet()) {
+			string += entry.getKey() + ": ";
+			for (Teacher teacher : entry.getValue()) {
+				string += teacher + ", ";
+			}
+			string += "\n";
+		}
+		return string;
 	}
 
 }

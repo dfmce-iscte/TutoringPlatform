@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://service" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://service" xmlns:intf="http://service" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://service" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="addStudentToWaitingList">
+    <complexType>
+     <sequence>
+      <element name="teacher" type="xsd:string"/>
+      <element name="subject" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="addStudentToWaitingListResponse">
+    <complexType/>
+   </element>
+   <element name="removeStudentToWaitingList">
+    <complexType>
+     <sequence>
+      <element name="teacher" type="xsd:string"/>
+      <element name="subject" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="removeStudentToWaitingListResponse">
+    <complexType/>
+   </element>
+   <element name="searchAvailabilityForSpecificSubject">
+    <complexType>
+     <sequence>
+      <element name="subject" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="searchAvailabilityForSpecificSubjectResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="searchAvailabilityForSpecificSubjectReturn" type="xsd:anyType"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="addStudentToWaitingListResponse">
+
+      <wsdl:part element="impl:addStudentToWaitingListResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="searchAvailabilityForSpecificSubjectRequest">
+
+      <wsdl:part element="impl:searchAvailabilityForSpecificSubject" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="addStudentToWaitingListRequest">
+
+      <wsdl:part element="impl:addStudentToWaitingList" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="removeStudentToWaitingListResponse">
+
+      <wsdl:part element="impl:removeStudentToWaitingListResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="removeStudentToWaitingListRequest">
+
+      <wsdl:part element="impl:removeStudentToWaitingList" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="searchAvailabilityForSpecificSubjectResponse">
+
+      <wsdl:part element="impl:searchAvailabilityForSpecificSubjectResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="GustaveTutorService">
+
+      <wsdl:operation name="addStudentToWaitingList">
+
+         <wsdl:input message="impl:addStudentToWaitingListRequest" name="addStudentToWaitingListRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:addStudentToWaitingListResponse" name="addStudentToWaitingListResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeStudentToWaitingList">
+
+         <wsdl:input message="impl:removeStudentToWaitingListRequest" name="removeStudentToWaitingListRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:removeStudentToWaitingListResponse" name="removeStudentToWaitingListResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="searchAvailabilityForSpecificSubject">
+
+         <wsdl:input message="impl:searchAvailabilityForSpecificSubjectRequest" name="searchAvailabilityForSpecificSubjectRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:searchAvailabilityForSpecificSubjectResponse" name="searchAvailabilityForSpecificSubjectResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="GustaveTutorServiceSoapBinding" type="impl:GustaveTutorService">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="addStudentToWaitingList">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addStudentToWaitingListRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="addStudentToWaitingListResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="removeStudentToWaitingList">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="removeStudentToWaitingListRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="removeStudentToWaitingListResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="searchAvailabilityForSpecificSubject">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="searchAvailabilityForSpecificSubjectRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="searchAvailabilityForSpecificSubjectResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="GustaveTutorServiceService">
+
+      <wsdl:port binding="impl:GustaveTutorServiceSoapBinding" name="GustaveTutorService">
+
+         <wsdlsoap:address location="http://localhost:8080/TutoringPlatform/services/GustaveTutorService"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

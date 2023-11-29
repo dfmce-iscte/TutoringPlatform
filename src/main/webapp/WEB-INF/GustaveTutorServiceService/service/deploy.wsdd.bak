@@ -1,0 +1,84 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from GustaveTutorServiceService WSDL service -->
+
+  <service name="GustaveTutorService" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://service"/>
+      <parameter name="wsdlServiceElement" value="GustaveTutorServiceService"/>
+      <parameter name="schemaQualified" value="http://service"/>
+      <parameter name="wsdlServicePort" value="GustaveTutorService"/>
+      <parameter name="className" value="service.GustaveTutorServiceSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="GustaveTutorService"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="addStudentToWaitingList" qname="operNS:addStudentToWaitingList" xmlns:operNS="http://service" soapAction="" >
+        <parameter qname="pns:teacher" xmlns:pns="http://service" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:subject" xmlns:pns="http://service" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="removeStudentToWaitingList" qname="operNS:removeStudentToWaitingList" xmlns:operNS="http://service" soapAction="" >
+        <parameter qname="pns:teacher" xmlns:pns="http://service" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:subject" xmlns:pns="http://service" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="searchAvailabilityForSpecificSubject" qname="operNS:searchAvailabilityForSpecificSubject" xmlns:operNS="http://service" returnQName="retNS:searchAvailabilityForSpecificSubjectReturn" xmlns:retNS="http://service" returnType="rtns:anyType" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:subject" xmlns:pns="http://service" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <parameter name="allowedMethods" value="removeStudentToWaitingList addStudentToWaitingList searchAvailabilityForSpecificSubject"/>
+
+      <typeMapping
+        xmlns:ns="http://service"
+        qname="ns:>addStudentToWaitingList"
+        type="java:service.AddStudentToWaitingList"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://service"
+        qname="ns:>removeStudentToWaitingListResponse"
+        type="java:service.RemoveStudentToWaitingListResponse"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://service"
+        qname="ns:>removeStudentToWaitingList"
+        type="java:service.RemoveStudentToWaitingList"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <arrayMapping
+        xmlns:ns="http://service"
+        qname="ns:>searchAvailabilityForSpecificSubjectResponse"
+        type="java:java.lang.Object[]"
+        innerType="cmp-ns:anyType" xmlns:cmp-ns="http://www.w3.org/2001/XMLSchema"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://service"
+        qname="ns:>searchAvailabilityForSpecificSubject"
+        type="java:service.SearchAvailabilityForSpecificSubject"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://service"
+        qname="ns:>addStudentToWaitingListResponse"
+        type="java:service.AddStudentToWaitingListResponse"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+  </service>
+</deployment>
