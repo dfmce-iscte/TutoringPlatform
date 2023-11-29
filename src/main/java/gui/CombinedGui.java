@@ -17,10 +17,7 @@ import server.Appointment;
 public class CombinedGui extends JFrame {
 
     private Map<String, JTextField> subjectTextFields;
-<<<<<<< Updated upstream
-=======
    
->>>>>>> Stashed changes
 
     private Teacher teacher;
 
@@ -32,11 +29,7 @@ public class CombinedGui extends JFrame {
     private void buildGui() {
         // Set up the GUI components
         JPanel panel = new JPanel();
-<<<<<<< Updated upstream
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-=======
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
->>>>>>> Stashed changes
         panel.setLayout(new GridLayout(1, 2));
 
         // Left Panel (MainGui)
