@@ -59,12 +59,28 @@ public class Teacher extends UnicastRemoteObject implements ITeacher {
 		}
 	}
 
+	private Boolean  checkIfCanCreateAppointment(LocalDateTime initial_Time,LocalDateTime final_time){
+		for (Appointment appointment : appointments) {
+			if (appointment.getInitialTime().isBefore(final_time) && appointment.getFinalTime().isAfter(initial_Time)) {
+				return false;
+
+			}
+		}
+		
+		return true;
+
+	}
+
 	public Appointment createAppointment(LocalDateTime initial_time, LocalDateTime final_time, String subject)
 			throws RemoteException {
+
+		if(checkIfCanCreateAppointment(initial_time, final_time)){
 		Appointment new_appointment = new Appointment(initial_time, final_time, subject, this);
 		appointments.add(new_appointment);
 		notifyStudent(new_appointment);
 		return new_appointment;
+		}
+		return null;
 	}
 
 	public int getId() {
