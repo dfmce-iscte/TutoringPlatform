@@ -55,7 +55,6 @@ public class GustaveTutorService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public ITeacherWithIAppointments[] searchAvailabilityForSpecificSubject(String subject) throws RemoteException {

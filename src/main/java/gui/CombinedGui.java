@@ -46,7 +46,7 @@ public class CombinedGui extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String subject = JOptionPane.showInputDialog("Enter subject name:");
-                if (subject != null && !subject.isEmpty()) {
+                if (subject != null && !subject.isEmpty() && !teacher.getSubjectsWithRates().keySet().contains(subject)) {
                     // Create a text field for the subject
                     JTextField textField = new JTextField();
 
@@ -70,32 +70,32 @@ public class CombinedGui extends JFrame {
         });
 
         // Delete Subject Button
-        JButton deleteButton = new JButton("Delete Subject");
-        deleteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String selectedSubject = JOptionPane.showInputDialog("Enter subject name to delete:");
-                if (selectedSubject != null && !selectedSubject.isEmpty()) {
-                    if (teacher.getSubjectsWithRates().keySet().contains(selectedSubject)) {
-                        // teacher.removeSubject(selectedSubject);
+        // JButton deleteButton = new JButton("Delete Subject");
+        // deleteButton.addActionListener(new ActionListener() {
+        //     @Override
+        //     public void actionPerformed(ActionEvent e) {
+        //         String selectedSubject = JOptionPane.showInputDialog("Enter subject name to delete:");
+        //         if (selectedSubject != null && !selectedSubject.isEmpty()) {
+        //             if (teacher.getSubjectsWithRates().keySet().contains(selectedSubject)) {
+        //                 // teacher.removeSubject(selectedSubject);
                         
-                        subjectTextFields.remove(selectedSubject);
-                        // Refresh the panel
-                        subjectsPanel.removeAll();
-                        for (String subject : teacher.getSubjectsWithRates().keySet()) {
-                            subjectsPanel.add(new JLabel(subject));
-                            subjectsPanel.add(subjectTextFields.get(subject));
-                        }
-                        subjectsPanel.revalidate();
-                        subjectsPanel.repaint();
-                    }
-                }
-            }
-        });
+        //                 subjectTextFields.remove(selectedSubject);
+        //                 // Refresh the panel
+        //                 subjectsPanel.removeAll();
+        //                 for (String subject : teacher.getSubjectsWithRates().keySet()) {
+        //                     subjectsPanel.add(new JLabel(subject));
+        //                     subjectsPanel.add(subjectTextFields.get(subject));
+        //                 }
+        //                 subjectsPanel.revalidate();
+        //                 subjectsPanel.repaint();
+        //             }
+        //         }
+        //     }
+        // });Joana
 
-        leftPanel.add(new JScrollPane(subjectsPanel), BorderLayout.CENTER);
+       leftPanel.add(new JScrollPane(subjectsPanel), BorderLayout.CENTER);
         leftPanel.add(addButton, BorderLayout.NORTH);
-        leftPanel.add(deleteButton, BorderLayout.SOUTH);
+       // leftPanel.add(deleteButton, BorderLayout.SOUTH); 
 
         // Right Panel (MainFrame)
         JPanel rightPanel = new JPanel();
@@ -179,20 +179,20 @@ public class CombinedGui extends JFrame {
         
         buttonsPanel.add(createAppointmentButton);
 
-        // Delete Appointment Button
-        JButton deleteAppointmentButton = new JButton("Delete Appointment");
-        deleteAppointmentButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Appointment selectedAppointment = appointmentsList.getSelectedValue();
-                if (selectedAppointment != null) {
-                    // VER ESTA PARTE MELHOR
-                    // appointments.remove(selectedAppointment);
-                    // appointmentsListModel.removeElement(selectedAppointment);
-                }
-            }
-        });
-        buttonsPanel.add(deleteAppointmentButton);
+        // // Delete Appointment Button
+        // JButton deleteAppointmentButton = new JButton("Delete Appointment");
+        // deleteAppointmentButton.addActionListener(new ActionListener() {
+        //     @Override
+        //     public void actionPerformed(ActionEvent e) {
+        //         Appointment selectedAppointment = appointmentsList.getSelectedValue();
+        //         if (selectedAppointment != null) {
+        //             // VER ESTA PARTE MELHOR
+        //             // appointments.remove(selectedAppointment);
+        //             // appointmentsListModel.removeElement(selectedAppointment);
+        //         }
+        //     }
+        // });
+        // buttonsPanel.add(deleteAppointmentButton);
 
         rightPanel.add(buttonsPanel, BorderLayout.SOUTH);
 
